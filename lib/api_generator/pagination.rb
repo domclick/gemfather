@@ -1,0 +1,2 @@
+module ApiGenerator::Pagination
+end

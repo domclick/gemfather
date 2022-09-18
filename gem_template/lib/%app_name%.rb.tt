@@ -1,0 +1,25 @@
+require 'addressable'
+require 'bundler/setup'
+require 'api_generator'
+require 'dry-configurable'
+require 'faraday'
+require 'faraday_middleware'
+require 'hashie'
+require 'time'
+require 'zeitwerk'
+
+require '<%= app_short_name %>/railtie' if defined?(Rails)
+
+module <%= app_short_name_class %>
+  def self.client
+    return @client if defined?(@client) && @client.class.same_config?(Client.config)
+
+    @client = Client.new(**Client.config.to_h)
+  end
+end
+
+loader = Zeitwerk::Loader.new
+loader.tag = File.basename(__FILE__, '.rb')
+loader.inflector = Zeitwerk::GemInflector.new(__FILE__)
+loader.push_dir("#{__dir__}/<%= app_short_name %>", namespace: <%= app_name_class %>)
+loader.setup

@@ -1,0 +1,21 @@
+default: lint test
+
+setup:
+	bundle install
+
+test:
+	bin/rspec
+
+lint:
+	bin/rubocop
+
+cleanup:
+	rm -f <%= app_name %>-*.gem
+
+build:
+	gem build <%= app_name %>.gemspec
+
+publish:
+	gem push <%= app_name %>-*.gem
+
+deploy: build publish cleanup

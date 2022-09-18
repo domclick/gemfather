@@ -1,0 +1,11 @@
+require:
+  - rubocop-performance
+  - rubocop-rake
+
+inherit_from:
+  - .rubocop-ruby.yml
+  - .rubocop-rspec.yml
+
+inherit_mode:
+  merge:
+    - Exclude

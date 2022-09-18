@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+require 'irb'
+require_relative '../lib/api_generator'
+
+ApiGenerator::Client::Connection.configure do |configuration|
+  configuration.api_endpoint = 'http://server.dev'
+  configuration.api_header = 'X-Source-Token'
+  configuration.api_token = 'TEST_TOKEN'
+end
+
+IRB.start(File.expand_path(__dir__))
+

@@ -1,0 +1,11 @@
+module <%= app_short_name.camelize %>
+  module Model
+    module <%= namespace.camelize %>
+      module <%= action.camelize %>
+        class Response < ApiGenerator::Models::Base
+
+        end
+      end
+    end
+  end
+end

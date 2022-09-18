@@ -1,0 +1,180 @@
+# <%= app_name_class %>
+
+Ruby клиент для взаимодейтсвия с API сервиса [<%= app_name_class %> API](https://<%= app_name %>.dev/)
+
+## Установка
+
+Добавьте эту строку в Gemfile:
+
+```ruby
+gem '<%= app_name %>'
+```
+
+Выполните:
+
+```console
+    $ bundle
+```
+
+Или установите из командной строки:
+
+```console
+    $ gem install <%= app_name %>
+```
+
+## Конфигурация
+
+```ruby
+<%= app_name_class %>::Client.configure do |config|
+  config.api_endpoint       = 'https://<%= app_name %>.dev/'
+  config.api_user           = 'user'
+  config.api_password       = 'password'
+  config.open_timeout       = 5
+  config.read_timeout       = 5
+  config.user_agent         = 'info for debugging' # default is `Ruby <%= app_name_class %> API Client`
+  config.logger             = Logger.new(STDERR) # по дефолту `Rails.logger` в development окружении, в других - nil
+end
+```
+
+## Авторизация
+
+Из коробки есть:
+- По токену
+
+Для конфигурации в config нужно передать заголовок и сам токен
+```ruby
+config.api_token
+config.api_header
+```
+- Basic auth
+
+Для конфигурации в config нужно передать логин и пароль
+```ruby
+config.api_user
+config.api_password
+```
+- Для прочих кастомных настроек соединения при инициализации клиента передается блок
+
+```ruby
+<%= app_name_class %>::Client.new do |connection|
+    # кастомные настройки
+end
+```
+
+## Обработка ошибок
+Обработка ошибок реализована через DSL в клиенте вида
+
+`on_status 4XX, error: :error_name`
+
+При появлении статуса `4ХХ`, будет выброшено исключение `ErrorName`
+
+
+## Использование
+
+В папке `bin` существует скрипт `generate`, который генерирует в проекте скаффолд для ручки сервиса
+
+Генерация скаффолда (api, model, specs) происходит следующим образом:
+`bin/generate namespace:action:post`
+
+Пример: `bin/generate deals:create:post`
+
+Будет добавлена следующая структура каталогов и файлов
+```console
+      create  ./lib/domclick_api/api
+      create  ./lib/domclick_api/api/deals.rb
+      create  ./lib/domclick_api/model/deals/create
+      create  ./lib/domclick_api/model/deals/create/request.rb
+      create  ./lib/domclick_api/model/deals/create/response.rb
+      create  ./spec/api
+      create  ./spec/api/deals_spec.rb
+      create  ./spec/model/deals/create
+      create  ./spec/model/deals/create/request_spec.rb
+      create  ./spec/model/deals/create/response_spec.rb
+```
+Таким образом, будет создана ручка, вызывающая путь `/create`, модели `request` и `response`, а также тесты для этой ручки
+
+Вызов ручки:
+
+```ruby
+client = <%= app_name_class %>.client
+client.create(params)
+```
+Опционально, если добавить параметр `--paginate` - то ручка будет поддерживать пагинацию. Для конфигурации пагинации используется DSL:
+
+```ruby
+paginate :find_offers,
+         with: :limit_offset,
+         on_request: lambda { |req, limit: nil, offset: nil, sort: nil|
+           req.params[:limit] = limit if limit.present?
+           req.params[:offset] = offset if offset.present?
+           req.params[:sort] = sort if sort.present?
+         },
+         data_key: :offers,
+         limit: :limit.to_proc,
+         offset: :offset.to_proc,
+         total: :total.to_proc
+```
+
+```ruby
+paginate :find_offers,
+         with: :page,
+         on_request: lambda { |req, page: nil, per_page: nil, sort: nil|
+           req.params[:page] = page if page.present?
+           req.params[:per_page] = per_page if per_page.present?
+           req.params[:sort] = sort if sort.present?
+         },
+         data_key: :offers,
+         per_page: :per_page.to_proc,
+         total: :total.to_proc
+```
+
+Таким образом, метод `find_offers` будет возвращать объект relation, реализующий `Enumerable`.
+Данные при этом не будут загружены до тех пор, пока доступ к ним не понадобится (например, метод `#to_a`).
+
+```ruby
+client.find_offers(company_id: 1).limit(100).offset(50).order(id: 'desc').map(&:id)
+```
+
+## Разработка
+
+Установка:
+
+```console
+make setup
+```
+
+Тесты:
+
+```console
+make test
+```
+
+Рубокоп:
+
+```console
+make lint
+```
+
+Очистка:
+
+```console
+make cleanup
+```
+
+Создать docker образ:
+
+```console
+make build
+```
+
+Поставка гема в RubyGems:
+
+```console
+make publish
+```
+
+Деплой:
+
+```console
+make deploy
+```

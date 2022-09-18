@@ -1,0 +1,18 @@
+module <%= app_short_name_class %>
+  class Client < ApiGenerator::Client::Connection
+    # INCLUDES
+
+    # ERROR_HANDLING
+    on_status 400, error: :invalid_request_error
+    on_status 401, error: :unauthorized_error
+    on_status 403, error: :forbidden_error
+    on_status 404, error: :resource_not_found_error
+    on_status 405, error: :method_not_allowed_error
+    on_status 413, error: :payload_too_large_error
+    on_status 422, error: :unprocessable_entity
+
+    def customize_connection!(connection)
+      # set custom authorization here if needed
+    end
+  end
+end

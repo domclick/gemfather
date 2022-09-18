@@ -1,0 +1,54 @@
+AllCops:
+  TargetRubyVersion: 2.7
+  Exclude:
+    - 'bin/**/*'
+  NewCops: enable
+
+Layout/LineLength:
+  Max: 100
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/ClassStructure:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: true
+  Include:
+    - 'app/services/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Send:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+

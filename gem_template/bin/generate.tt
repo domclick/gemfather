@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+require 'api_generator'
+require 'fileutils'
+
+ApiGenerator::Commands::Generate.new(ARGV[0..1]).call

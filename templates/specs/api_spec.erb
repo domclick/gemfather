@@ -1,0 +1,15 @@
+require_relative '../spec_helper'
+
+RSpec.describe <%= app_short_name.camelize %>::Api::<%= namespace.camelize %> do
+  describe '<%= namespace %>' do
+    let(:client) { <%= app_short_name.camelize %>.client }
+
+    describe '#<%= action %>' do
+      let(:params) { {} }
+
+      it 'makes successful request', vcr: { cassette_name: '<%= namespace.camelize %>/<%= action %>/success' } do
+        expect { client.<%= action %>(params) }.not_to raise_error
+      end
+    end
+  end
+end

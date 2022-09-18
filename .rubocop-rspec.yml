@@ -1,0 +1,38 @@
+require: rubocop-rspec
+
+Metrics/BlockLength:
+  Exclude:
+    - app/admin/**/*.rb
+    - spec/**/*.rb
+
+Metrics/ModuleLength:
+  Exclude:
+    - spec/**/*.rb
+
+Style/SymbolProc:
+  Exclude:
+    - spec/factories/**/*.rb
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/HookArgument:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 4
+
+RSpec/FilePath:
+  Exclude:
+    - spec/requests/**/*.rb
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/lib/tasks/**/*.rb
+    - spec/config/*.rb
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false

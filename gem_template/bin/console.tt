@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'dotenv/load'
+require 'irb'
+require_relative '../lib/<%= app_name %>'
+
+<%= app_name_class %>::Client.configure do |configuration|
+  configuration.api_endpoint = 'http://server.dev'
+  configuration.api_token = 'TOKEN'
+
+  configuration.logger = Logger.new(STDOUT)
+end
+
+begin
+  # Put your test code here
+rescue StandardError => e
+  pp e
+end
+
+binding.irb

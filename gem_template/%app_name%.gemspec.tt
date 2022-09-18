@@ -1,0 +1,32 @@
+require_relative './lib/<%= app_short_name %>/version'
+
+Gem::Specification.new do |spec|
+  spec.name          = '<%= app_name %>'
+  spec.version       = <%= app_name_class %>::Version::VERSION
+  spec.authors       = ['<%= author %>']
+  spec.email         = ['<%= email %>']
+
+  spec.summary       = 'API client for <%= app_name %> service'
+  spec.homepage      = 'https://TODO.INSERT/YOUR_REPO/HERE/'
+  spec.required_ruby_version = '>= 2.7'
+
+  spec.metadata = {
+    'bug_tracker_uri' => "#{spec.homepage}/issues",
+    'changelog_uri' => "#{spec.homepage}/blob/main/CHANGELOG.md",
+    'documentation_uri' => "#{spec.homepage}/blob/main/README.md",
+    'homepage_uri' => spec.homepage,
+    'source_code_uri' => spec.homepage,
+    'rubygems_mfa_required' => 'true'
+  }
+
+  spec.files = Dir['lib/**/*', 'README.md']
+  spec.require_paths = ['lib']
+
+  spec.add_dependency 'addressable', '~> 2.3'
+  spec.add_dependency 'dry-configurable', '~> 0.11'
+  spec.add_dependency 'gemfather', '~> <%= version %>'
+  spec.add_dependency 'faraday', '>= 0.17', '< 2'
+  spec.add_dependency 'faraday_middleware', '>= 0.13', '< 2'
+  spec.add_dependency 'hashie', '>= 3.0', '< 5'
+  spec.add_dependency 'zeitwerk', '>= 2.2.2'
+end

@@ -1,0 +1,10 @@
+def <%= action %>(request_or_hash)
+  request = if request_or_hash.is_a?(Model::<%= namespace.camelize %>::<%= action.camelize %>::Request)
+    request_or_hash
+  else
+    Model::<%= namespace.camelize %>::<%= action.camelize %>::Request.new(params)
+  end
+
+  response = connection.<%= http_method %>(<%= action.upcase %>_PATH, request)
+  Model::<%= namespace.camelize %>::<%= action.camelize %>::Response.new(response.body)
+end

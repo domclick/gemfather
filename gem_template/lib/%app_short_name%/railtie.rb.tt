@@ -1,0 +1,5 @@
+module <%= app_short_name_class %>
+  class Railtie < Rails::Railtie
+    extend ApiGenerator::Railtie
+  end
+end

@@ -1,0 +1,9 @@
+include ApiGenerator::Pagination::Dsl
+
+paginate :<%= action %>,
+         with: :limit_offset,
+         on_request: proc { |req, limit: nil, offset: nil, sort: nil| }
+         data_key: :data_key,
+         limit: :limit.to_proc,
+         offset: :offset.to_proc,
+         total: :total.to_proc

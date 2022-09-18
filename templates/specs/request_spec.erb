@@ -1,0 +1,12 @@
+require 'spec_helper'
+
+RSpec.describe <%= app_short_name.camelize %>::Model::<%= namespace.camelize %>::<%= action.camelize %>::Request do
+  describe 'request model' do
+    let(:properties) { {} }
+    let(:model) { described_class.new(properties) }
+
+    it 'behaves like request' do
+      expect(model).to eq(properties)
+    end
+  end
+end

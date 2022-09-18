@@ -1,0 +1,35 @@
+require 'bundler/setup'
+require '<%= app_name %>'
+require 'dotenv/load'
+require 'vcr'
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+
+  config.hook_into :faraday
+
+  config.before_record do |vcr|
+    vcr.response.body.force_encoding('UTF-8')
+  end
+
+  config.configure_rspec_metadata!
+end
+
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+
+  config.order = :random
+
+  Kernel.srand config.seed
+
+  config.before do
+    <%= app_name_class %>::Client.configure do |configuration|
+      configuration.api_endpoint = 'http://<%= app_name %>.dev'
+      configuration.api_header = 'X-Source-Token'
+      configuration.api_token = 'TEST_TOKEN'
+      configuration.logger = Logger.new(Pathname.new(__dir__).join('..', 'log', 'test.log'))
+    end
+  end
+end
