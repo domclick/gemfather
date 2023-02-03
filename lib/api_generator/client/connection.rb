@@ -1,5 +1,6 @@
 module ApiGenerator
   module Client
+    # rubocop:disable Metrics/ClassLength
     class Connection < SimpleDelegator
       extend Config
 
@@ -63,6 +64,7 @@ module ApiGenerator
           setup_retries!(connection)
           setup_error_handling!(connection)
           setup_error_code_middleware!(connection)
+          setup_ssl(connection)
 
           customize_connection!(connection)
 
@@ -107,6 +109,11 @@ module ApiGenerator
         connection.response(:logger, self.class.logger) if self.class.logger
       end
 
+      def setup_ssl(connection)
+        connection.ssl.verify = self.class.ssl_verify
+        connection.ssl.ca_file = self.class.ca_file
+      end
+
       def setup_retries!(connection)
         return if self.class.max_retries <= 0
 
@@ -137,5 +144,6 @@ module ApiGenerator
         customization_block.call(connection)
       end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end

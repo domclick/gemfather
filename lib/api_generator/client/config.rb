@@ -24,6 +24,9 @@ module ApiGenerator
           setting :api_user, reader: true
           setting :api_password, reader: true
 
+          setting :ssl_verify, reader: true
+          setting :ca_file, reader: true
+
           setting :open_timeout, OPEN_TIMEOUT, reader: true
           setting :read_timeout, READ_TIMEOUT, reader: true
           setting :max_retries, MAX_RETRIES, reader: true

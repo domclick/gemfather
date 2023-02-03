@@ -7,6 +7,8 @@ RSpec.describe ApiGenerator::Client::Config do
     expect(klass.api_endpoint).to be_nil
     expect(klass.api_token).to be_nil
     expect(klass.logger).to be_nil
+    expect(klass.ssl_verify).to be_nil
+    expect(klass.ca_file).to be_nil
     expect(klass.user_agent).to eq('Ruby API Client')
     expect(klass.open_timeout).to eq(3)
     expect(klass.read_timeout).to eq(3)
