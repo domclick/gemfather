@@ -13,10 +13,11 @@ RSpec.describe ApiGenerator::Models::Base do
     model_class.new(
       declared: true,
       coerce_to_integer: '1',
-      time: '2012-12-25',
+      time: time,
       undeclared: 'UNDECLARED',
     )
   end
+  let(:time) { '2012-12-25' }
 
   it 'coerce' do
     expect(model.coerce_to_integer).to eq(1)
@@ -31,6 +32,14 @@ RSpec.describe ApiGenerator::Models::Base do
   end
 
   it 'parses time' do
-    expect(model.time).to eq(Time.new(2012, 12, 25))
+    expect(model.time).to eq(Time.parse(time))
+  end
+
+  context 'with nullable time' do
+    let(:time) { nil }
+
+    it 'parses nullable time' do
+      expect(model.time).to be_nil
+    end
   end
 end

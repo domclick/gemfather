@@ -6,7 +6,7 @@ module ApiGenerator
       include Hashie::Extensions::IgnoreUndeclared
 
       def self.parse_time
-        ->(time) { Time.parse(time) }
+        ->(time) { Time.parse(time) if time.present? }
       end
 
       private_class_method :parse_time
