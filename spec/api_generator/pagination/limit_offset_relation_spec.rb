@@ -128,4 +128,31 @@ RSpec.describe ApiGenerator::Pagination::LimitOffsetRelation do
       end
     end
   end
+
+  describe 'nested data key' do
+    let(:config) { { data_key: %i[data numbers] } }
+    let(:page_1_numbers) { Array.new(10) { rand(100) } }
+    let(:offset) { 0 }
+    let(:limit) { 10 }
+    let(:options) { { limit: limit, offset: offset } }
+    let(:block_calls) { Struct.new(:counter).new(0) }
+    let(:total) { 100 }
+
+    let(:fetch_block) do
+      proc do
+        block_calls.counter += 1
+        Struct.new(:data, :limit, :offset, :total).new(
+          { numbers: page_1_numbers },
+          limit,
+          offset,
+          total,
+        )
+      end
+    end
+
+    it 'fetches first page elements' do
+      expect(relation.to_a).to eq(page_1_numbers)
+      expect(block_calls.counter).to eq(1)
+    end
+  end
 end

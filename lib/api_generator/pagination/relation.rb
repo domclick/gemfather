@@ -82,7 +82,14 @@ class ApiGenerator::Pagination::Relation
   attr_reader :fetch_block, :config
 
   def data
-    response.try(data_key) || response.dig(*data_key)
+    case data_key
+    when Symbol, String
+      response.public_send(data_key)
+    when Array
+      response.dig(*data_key)
+    else
+      raise ArgumentError, 'Data key should be a symbol, string or array'
+    end
   end
 
   def expand(**options)
