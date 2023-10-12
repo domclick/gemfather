@@ -8,7 +8,6 @@ RSpec.describe ApiGenerator::Services::Gemfather do
   let(:app_name) { 'new_api' }
   let(:run!) { described_class.new.generate_client(app_name) }
 
-  # rubocop:disable RSpec/NoExpectationExample
   it 'creates correct file structure' do
     Dir.mktmpdir do |dir|
       described_class.target_dir = File.expand_path(dir)
@@ -37,5 +36,4 @@ RSpec.describe ApiGenerator::Services::Gemfather do
       expect_exists?(dir, './new_api/.rubocop.yml')
     end
   end
-  # rubocop:enable RSpec/NoExpectationExample
 end

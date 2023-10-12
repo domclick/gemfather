@@ -1,4 +1,4 @@
-require_relative './lib/api_generator/version'
+require_relative 'lib/api_generator/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'gemfather'
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.executables << 'gemfather'
 
   spec.add_dependency 'activesupport', '>= 6.0'
-  spec.add_dependency 'dry-configurable', '~> 0.11'
+  spec.add_dependency 'dry-configurable', '~> 0.11', '< 0.14'
   spec.add_dependency 'faraday', '>= 0.17', '< 2'
   spec.add_dependency 'faraday_middleware', '>= 0.13', '< 2'
   spec.add_dependency 'hashie', '>= 3.0', '< 5'

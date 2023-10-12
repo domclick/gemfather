@@ -17,6 +17,10 @@ module ClientParent
   end
 
   class Client < ApiGenerator::Client::Connection
+    def find_resource
+      connection.get('/resource')
+    end
+
     on_status 401, error: :unauthorized_error
   end
 end
@@ -81,6 +85,48 @@ RSpec.describe ApiGenerator::Client::Connection do
       response = custom_client.get('/custom')
 
       expect(response.status).to eq(200)
+    end
+  end
+
+  context 'with instrumentation' do
+    let(:client) do
+      ClientParent::Client.new(
+        enable_instrumentation: enable_instrumentation,
+        api_endpoint: 'http://web.mock',
+      )
+    end
+    let(:action) { 'find_resource' }
+
+    before do
+      stub_request(:get, 'http://web.mock/resource')
+
+      allow(ActiveSupport::Notifications)
+        .to(receive(:instrument)
+        .with('gemfather_api_client.requests', instance_of(Faraday::Env))
+        .and_call_original)
+    end
+
+    context 'when enabled' do
+      let(:enable_instrumentation) { true }
+
+      it 'instruments' do
+        response = client.public_send(action)
+        expect(response.status).to eq(200)
+        expect(ActiveSupport::Notifications).to have_received(:instrument)
+        expect(response.env[:gemfather_api_client])
+          .to eq({ name: client.class.name, action: action })
+      end
+    end
+
+    context 'when disabled' do
+      let(:enable_instrumentation) { false }
+
+      it "doesn't instrument" do
+        response = client.public_send(action)
+        expect(response.status).to eq(200)
+        expect(ActiveSupport::Notifications).not_to have_received(:instrument)
+        expect(response.env[:gemfather_api_client]).to be_nil
+      end
     end
   end
 

@@ -26,13 +26,14 @@ gem '<%= app_name %>'
 
 ```ruby
 <%= app_name_class %>::Client.configure do |config|
-  config.api_endpoint       = 'https://<%= app_name %>.dev/'
-  config.api_user           = 'user'
-  config.api_password       = 'password'
-  config.open_timeout       = 5
-  config.read_timeout       = 5
-  config.user_agent         = 'info for debugging' # default is `Ruby <%= app_name_class %> API Client`
-  config.logger             = Logger.new(STDERR) # по дефолту `Rails.logger` в development окружении, в других - nil
+  config.api_endpoint           = 'https://<%= app_name %>.dev/'
+  config.api_user               = 'user'
+  config.api_password           = 'password'
+  config.open_timeout           = 5
+  config.read_timeout           = 5
+  config.user_agent             = 'info for debugging' # default is `Ruby <%= app_name_class %> API Client`
+  config.logger                 = Logger.new(STDERR) # по дефолту `Rails.logger` в development окружении, в других - nil
+  config.enable_instrumentation = true # под дефолту выключен, включает отправку метрик гему domclick_bigbrother через ActiveSupport::Notifications
 end
 ```
 

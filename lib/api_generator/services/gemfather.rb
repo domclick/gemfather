@@ -10,6 +10,10 @@ module ApiGenerator
       attr_accessor :app_name, :app_name_class, :app_short_name,
                     :app_short_name_class, :author, :email, :version
 
+      def self.source_root
+        File.expand_path('./../../../', __dir__)
+      end
+
       # rubocop:disable Metrics/MethodLength
       desc 'generates API gem', 'generates basic API gem with the provided name'
       def generate_client(app_name)
@@ -31,8 +35,6 @@ module ApiGenerator
       # rubocop:enable Metrics/MethodLength
 
       private
-
-      private_class_method :source_root
 
       def check_app_name(app_name)
         raise(Thor::Error, 'APP_NAME is not provided') unless app_name
@@ -71,10 +73,6 @@ module ApiGenerator
         Dir[File.expand_path('./*', 'bin')].each do |file|
           chmod(file, EXEC_MODE)
         end
-      end
-
-      def self.source_root
-        File.expand_path('./../../../', __dir__)
       end
     end
   end

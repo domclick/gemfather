@@ -52,8 +52,10 @@ module ApiGenerator
 
       private
 
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def connection
+        set_instrumentation_context
+
         @connection ||= Faraday.new(url: self.class.api_endpoint) do |connection|
           setup_auth!(connection)
 
@@ -65,6 +67,7 @@ module ApiGenerator
           setup_error_handling!(connection)
           setup_error_code_middleware!(connection)
           setup_ssl(connection)
+          setup_instrumentation!(connection)
 
           customize_connection!(connection)
 
@@ -74,7 +77,7 @@ module ApiGenerator
           connection.adapter(Faraday.default_adapter)
         end
       end
-      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       # rubocop:disable Metrics/AbcSize
       def setup_auth!(connection)
@@ -107,6 +110,24 @@ module ApiGenerator
 
       def setup_logger!(connection)
         connection.response(:logger, self.class.logger) if self.class.logger
+      end
+
+      def setup_instrumentation!(connection)
+        return unless self.class.enable_instrumentation
+
+        connection.use ApiGenerator::Middleware::Instrumentation,
+                       name: 'gemfather_api_client.requests'
+      end
+
+      def set_instrumentation_context
+        return unless self.class.enable_instrumentation
+
+        action = caller_locations(4, 1)&.first&.label || 'unparsed_method'
+
+        Thread.current[:gemfather_api_client] = {
+          name: self.class.to_s,
+          action: action,
+        }
       end
 
       def setup_ssl(connection)

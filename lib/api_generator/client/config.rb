@@ -10,7 +10,7 @@ module ApiGenerator
       RETRY_INTERVAL = 1
       RETRY_BACKOFF_FACTOR = 1
 
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def self.extended(klass)
         klass.extend Dry::Configurable
 
@@ -33,6 +33,7 @@ module ApiGenerator
           setting :retry_interval, RETRY_INTERVAL, reader: true
           setting :retry_backoff_factor, RETRY_BACKOFF_FACTOR, reader: true
           setting :logger, reader: true
+          setting :enable_instrumentation, reader: true
 
           setting :retriable_errors,
                   [
@@ -41,7 +42,7 @@ module ApiGenerator
                   reader: true
         end
       end
-      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       def check_config
         raise ConfigurationError, 'API endpoint is not configured.' if config.api_endpoint.nil?

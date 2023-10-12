@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'bundler', '~> 2.0'
+gem 'bundler', '>= 1.7'
 gem 'rubocop', '~> 1.8'
 gem 'rubocop-performance'
 gem 'rubocop-rspec', '~> 2.1'
