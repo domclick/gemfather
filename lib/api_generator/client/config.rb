@@ -9,6 +9,7 @@ module ApiGenerator
       MAX_RETRIES = 3
       RETRY_INTERVAL = 1
       RETRY_BACKOFF_FACTOR = 1
+      CONNECTION_ERROR = ApiGenerator::Middleware::HttpErrors::ConnectionError
 
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def self.extended(klass)
@@ -16,7 +17,7 @@ module ApiGenerator
 
         klass.class_eval do
           setting :api_endpoint, reader: true
-          setting :user_agent, USER_AGENT, reader: true
+          setting :user_agent, default: USER_AGENT, reader: true
 
           setting :api_header, reader: true
           setting :api_token, reader: true
@@ -27,19 +28,15 @@ module ApiGenerator
           setting :ssl_verify, reader: true
           setting :ca_file, reader: true
 
-          setting :open_timeout, OPEN_TIMEOUT, reader: true
-          setting :read_timeout, READ_TIMEOUT, reader: true
-          setting :max_retries, MAX_RETRIES, reader: true
-          setting :retry_interval, RETRY_INTERVAL, reader: true
-          setting :retry_backoff_factor, RETRY_BACKOFF_FACTOR, reader: true
+          setting :open_timeout, default: OPEN_TIMEOUT, reader: true
+          setting :read_timeout, default: READ_TIMEOUT, reader: true
+          setting :max_retries, default: MAX_RETRIES, reader: true
+          setting :retry_interval, default: RETRY_INTERVAL, reader: true
+          setting :retry_backoff_factor, default: RETRY_BACKOFF_FACTOR, reader: true
           setting :logger, reader: true
           setting :enable_instrumentation, reader: true
 
-          setting :retriable_errors,
-                  [
-                    ApiGenerator::Middleware::HttpErrors::ConnectionError,
-                  ],
-                  reader: true
+          setting :retriable_errors, default: [CONNECTION_ERROR], reader: true
         end
       end
       # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
