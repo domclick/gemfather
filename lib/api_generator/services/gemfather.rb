@@ -39,6 +39,7 @@ module ApiGenerator
       def check_app_name(app_name)
         raise(Thor::Error, 'APP_NAME is not provided') unless app_name
         raise(Thor::Error, "Folder #{app_name} name already exists") if Dir.exist?("./#{app_name}")
+        raise(Thor::Error, "Api name can start only with letter or _") if app_name.chr.match(/[a-zA-Z_]/).nil?
       end
 
       def setup_template_variables(app_name)
