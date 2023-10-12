@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.1] - 2023-10-13
+### Added
+- Добавлена явная ошибка если попытаться назвать гем с цифры. [#PR3](https://github.com/domclick/gemfather/pull/3)
+- Фикс синтаксиса дефолтных конфигов для поддержки `dry-configurable` '> 0.13' [#PR2](https://github.com/domclick/gemfather/pull/2)
+- Фикс нейминга, не падать если в названии сгенерированного гема есть слово `gemfather` [#PR1](https://github.com/domclick/gemfather/pull/1)
+
+Фиксы залил [@DDKatch](https://github.com/DDKatch)
+
 ## [2.3.0] - 2023-10-12
 ### Added
 - Расширен фукционал gemfather для отправки метрик через `ActiveSupport::Notifications` гему `domclick/bigbrother`
@@ -37,6 +45,8 @@ Dev-зависимости указаны только в `Gemfile`, удале�
 ### Added
 Первичная публикация гема
 
+[2.3.1]: https://github.com/domclick/gemfather/compare/2.3.0...2.3.1
+[2.3.0]: https://github.com/domclick/gemfather/compare/2.2.1...2.3.0
 [2.2.1]: https://github.com/domclick/gemfather/compare/2.2.0...2.2.1
 [2.2.0]: https://github.com/domclick/gemfather/compare/2.1.1...2.2.0
 [2.1.1]: https://github.com/domclick/gemfather/compare/2.1.0...2.1.1

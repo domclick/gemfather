@@ -33,7 +33,7 @@ module ApiGenerator
       end
 
       def source_root
-        gemfather_lib_path = $LOAD_PATH.grep(/gems\/gemfather/).first
+        gemfather_lib_path = $LOAD_PATH.grep(%r{gems/gemfather}).first
 
         return File.expand_path('../', gemfather_lib_path) if gemfather_lib_path
 
