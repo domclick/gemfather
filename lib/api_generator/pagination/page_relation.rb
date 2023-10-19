@@ -10,7 +10,7 @@ class ApiGenerator::Pagination::PageRelation < ApiGenerator::Pagination::Relatio
   private
 
   def next_relation
-    expand(page: [options[:page].to_i, 1].max + 1)
+    expand(page: [options[:page].to_i, 0].max + 1)
   end
 
   def last_page?
